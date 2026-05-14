@@ -1,9 +1,9 @@
 ---
 name: mev-engine
 description: |
-  MEV Engine v7.2 — Med-Research: 5-stage pipeline + quality gates + evidence standards. Kernel+Plugin architecture.
+  MEV Engine v7.2 — Self-auditing living system: Plugin Dispatch, Stage Checkpoint, Med-Research. Kernel lean, capabilities externalized, unused→dormant.
 homepage: https://github.com/meta-evo-creator/mev-engine
-version: 7.2.0
+version: 7.2.1
 metadata:
   openclaw:
     emoji: ⚙️
@@ -14,7 +14,7 @@ metadata:
 
 # MEV Engine v7.2 ⚙️
 
-> **v7.2: Med-Research 插件。医学研究五阶段（Scout→Draft→Review→Revise→Deliver）+ 质量门禁 + 证据标准。**
+> **v7.2: 自我审计的活系统 — Plugin Dispatch 精确定址 + 内核精简 + 死插件删除。**
 
 ## Architecture
 
@@ -78,21 +78,20 @@ Output required in delivery:
 → {FULL | DEGRADED_OK | DEGRADED}
 ```
 
-### Step 1: Tier + Plugin Activation
+### Step 1: Tier + Plugin Dispatch
 
 ```
 📊 Tier: L{1|2|3}
-🔌 Plugins: {auto-detected from task context}
+🔌 Dispatch: {plugin-list with priorities}
 ```
+
+**Dispatch 机制：** 任务关键词 vs 插件指纹四维匹配（keywords + anti_keywords + task_types + priority）。详见 `plugins/PLUGIN-DISPATCH.md`。
+
+**冲突裁决：** 同priority→都激活；异priority→高者胜出；force_activate→无视规则强制激活。
 
 | Task Type | Auto-activate |
 |:----------|:-------------|
-| Cron isolated | active/cron-rules + scene/stage-checkpoint |
-| L2 analysis | scene/stage-checkpoint |
-| L3 research | scene/deep-research + scene/stage-checkpoint |
-| Compliance analysis | scene/compliance-research + scene/stage-checkpoint |
-| Medical research | scene/med-research + scene/stage-checkpoint |
-| Task resume (interrupted) | scene/stage-checkpoint (强制激活) |
+| — | 插件激活由 Plugin Dispatch 自动路由（`plugins/PLUGIN-DISPATCH.md`），不依赖手动激活表 |
 
 ### Step 1.5: Stage Checkpoint (scene plugin)
 
@@ -156,4 +155,4 @@ Suit → Sense → Think → Optimize → Evolve (见 SOUL.md 内核)
 | v6.5 | 05-12 | Trust-but-verify: unified preflight, Agent E verify, IMA fallback |
 | **v7.0** | **05-13** | **Kernel+Plugin architecture. Core immutable, capabilities as plugins, auto-dormancy lifecycle. MEV skeleton preserved, specific rules moved to plugins.** |
 | **v7.1** | **05-14** | **Stage checkpoint plugin (scene). Five-layer receipts → durable resume. Interrupt recovery for cron + L2/L3. Zero new dependencies. Inspired by OPL Framework stage attempt ledger.** |
-| **v7.2** | **05-14** | **Med-Research plugin (scene). Medical research 5-stage pipeline (Scout→Draft→Review→Revise→Deliver) with quality gates, evidence grading, PRISMA/STROBE compliance, and IMRaD templates. Extracted from OPL Research Ops + MAS domain knowledge.** |
+| **v7.2** | **05-14** | **Plugin Dispatch (精准四维路由) + Med-Research (五阶段医学研究) + 内核自审计精简 (删除Agent Groups表、手动激活表→Dispatch自动化、删2个死插件)。MEV成为自审计活系统。** |
